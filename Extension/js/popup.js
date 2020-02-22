@@ -1,7 +1,6 @@
 
 
 
-
 const root = document.getElementById("root");
 const startBtn = document.getElementById("startBtn");
 const counter = document.createElement("div")
@@ -34,7 +33,9 @@ const recordInitPosture = () => {
   // Intial point
   startBtn.style.display = "none";
   root.appendChild(counter)
-  let count = 10
+  let count = 5
+
+  let initialImage;
 
   // Countdown
   const countInt = setInterval(() => {
@@ -44,23 +45,21 @@ const recordInitPosture = () => {
         count--;
         counter.innerText = `Please sit with good posture for ${count} seconds`
       }
+      if(count == 3){
+        initialImage = getPicture();
+      }
     }, 1000);
 
-
-  // RECORD INITAL IMAGE DATA
-    // Write Code Here...
-    // ...
-  //
+    // Initial picture is
 
   // End Countdown
   const stopCountInt = () => {
     clearInterval(countInt);
-    counter.innerText = "All Set! Sit Straight!"
+    chrome.storage.sync.set({initialPic: initialImage}, () => {
+      counter.innerText = "All Set! Sit Straight!"
+    });
+    startRecording();
   }
-
-  // CALL FUNCTION TO START RECURRING CHECKS
-
-
 }
 
 
