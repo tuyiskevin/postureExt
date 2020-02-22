@@ -54,42 +54,42 @@ function comparePostures (initialPostureValues, currentPostureValues){
 
 ////////////////////////////////////////////////////////////////////////////////
 // used for testing and setup purposes. Now all the relavent code is in function
-    console.log("Hello");
-    var flipHorizontal = false;
-    var goodValues;
-    var badValues;
-    var goodPosture = document.getElementById('postureGood');
-    var badPosture = document.getElementById('postureBad');
-
-    // doing posture things on the goodPosture image
-    posenet.load().then(function(net) {
-      const poseG = net.estimateSinglePose(goodPosture, {
-        flipHorizontal: true
-      });
-      return poseG;
-    }).then(function(poseG){
-      console.log("GoodPosture");
-      console.log(poseG);
-
-      goodValues = distancesFromPose(poseG);
-      console.log(goodValues);
-    });
-
-      //bad posture
-    posenet.load().then(function(net) {
-      const poseB = net.estimateSinglePose(badPosture, {
-        flipHorizontal: true
-      });
-      return poseB;
-    }).then(function(poseB){
-      console.log("badPosture");
-      console.log(poseB);
-
-      badValues= distancesFromPose(poseB)
-      console.log(badValues);
-
-      console.log("Percent Differences");
-      console.log(poseDifferences(goodValues,badValues));
-
-      console.log(hasGoodPosture(poseDifferences(goodValues,badValues)))
-    })
+    // console.log("Hello");
+    // var flipHorizontal = false;
+    // var goodValues;
+    // var badValues;
+    // var goodPosture = document.getElementById('postureGood');
+    // var badPosture = document.getElementById('postureBad');
+    //
+    // // doing posture things on the goodPosture image
+    // posenet.load().then(function(net) {
+    //   const poseG = net.estimateSinglePose(goodPosture, {
+    //     flipHorizontal: true
+    //   });
+    //   return poseG;
+    // }).then(function(poseG){
+    //   console.log("GoodPosture");
+    //   console.log(poseG);
+    //
+    //   goodValues = distancesFromPose(poseG);
+    //   console.log(goodValues);
+    // });
+    //
+    //   //bad posture
+    // posenet.load().then(function(net) {
+    //   const poseB = net.estimateSinglePose(badPosture, {
+    //     flipHorizontal: true
+    //   });
+    //   return poseB;
+    // }).then(function(poseB){
+    //   console.log("badPosture");
+    //   console.log(poseB);
+    //
+    //   badValues= distancesFromPose(poseB)
+    //   console.log(badValues);
+    //
+    //   console.log("Percent Differences");
+    //   console.log(poseDifferences(goodValues,badValues));
+    //
+    //   console.log(hasGoodPosture(poseDifferences(goodValues,badValues)))
+    // })
