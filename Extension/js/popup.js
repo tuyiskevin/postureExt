@@ -39,13 +39,14 @@ const recordInitPosture = () => {
 
   // Countdown
   const countInt = setInterval(() => {
+
       if(count == 0){
         stopCountInt();
       } else {
         count--;
         counter.innerText = `Please sit with good posture for ${count} seconds`
       }
-      if(count == 3){
+      if(count == 2){
         initialImage = getPicture();
       }
     }, 1000);
