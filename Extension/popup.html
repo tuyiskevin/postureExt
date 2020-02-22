@@ -10,15 +10,19 @@
     </style>
   </head>
   <body id="root" >
-    <!-- <img id='postureGood' src='/images/postureGood.jpg ' style="Di"/> -->
-    <!-- <img id = 'postureBad' src ='/images/postureBad.jpg' /> -->
+    <main id="camera">
+      <canvas id="canvas"></canvas>
+      <video id="video"></video>
+      <img src="//:0" alt="" id="output">
+      <button id="trigger" style="display: none" ></button>
+    </main>
     <div id="mainDiv" >
       <button type="button" id="startBtn">START</button>
     </div>
     <script src="./tensor/tfjs.js"></script>
     <script src="./tensor/posenet.js"></script>
+    <script src="./js/camera.js"></script>
     <script src="./js/popup.js"></script>
     <script src="./js/pose.js"></script>
-    <script src="./js/camera.js"></script>
   </body>
 </html>

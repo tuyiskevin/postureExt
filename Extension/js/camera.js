@@ -1,25 +1,108 @@
 console.log("hit")
 
-const getPicture = () => {
-  let pictureData = true;
 
-  // Dont actually return the picture.
-  // Just return the necesary Values
 
-  console.log("picture taken")
-  return pictureData;
+const videoWidth = 1280;
+const videoHeight = 720;
+const video = document.getElementById('video'),
+      canvas = document.getElementById('canvas'),
+      output = document.getElementById('output'),
+      trigger = document.getElementById('trigger');
+
+async function getVideo() {
+  video.width = videoWidth;
+  video.height = videoHeight;
+    const stream = await navigator.mediaDevices.getUserMedia({
+        'video' : {
+        facingMode: 'user',
+        width: videoWidth,
+        height: videoHeight
+        },
+        'audio': false
+        });
+        video.srcObject = stream;
+    trigger.click = function() {
+        canvas.getContext("2d")
+        canvas.width = video.width;
+        canvas.height = video.height;
+        output.src = canvas.toDataURL("image/png")};
+    return new Promise((resolve) => {
+        video.onloadedmetadata = () => {
+        resolve(video);
+    };
+  });
+}
+
+const loadVideo = async () => {
+  const video = await getVideo();
+  video.play();
+  return video;
+}
+loadVideo();
+
+
+// **********************
+
+
+
+
+function distance(p1, p2) {
+  return Math.sqrt(Math.pow((p1.x-p2.x),2) + Math.pow((p1.y-p2.y),2));
+}
+
+function poseDifferences(good, bad) {
+  differences = {noseL: good.noseLeft/bad.noseLeft, noseR: good.noseRight/bad.noseRight,
+  rL: good.leftRight/bad.leftRight};
+
+  return differences;
+}
+
+function distancesFromPose(pose){
+  return {noseLeft: distance(pose.keypoints[0].position,pose.keypoints[5].position),
+    noseRight: distance(pose.keypoints[0].position,pose.keypoints[6].position),
+    leftRight: distance(pose.keypoints[5].position,pose.keypoints[6].position)};
+}
+
+function hasGoodPosture(diff){
+
+  // if nose difference decreases by 10% or should distances increases by 10%
+  if(diff.noseL > 1.10 || diff.noseR> 1.10 || diff.rL <0.9){
+    return false;
+  } else{
+    return true;
+  }
+}
+
+
+const getPicture = async () => {
+
+  await loadVideo();
+
+  let flipHorizontal = false;
+  let goodValues;
+  let posture = document.getElementById("output"); // this line refers to how i get the image
+
+
+  posenet.load().then(function(net) {
+    const pose = net.estimateSinglePose(posture, {
+      flipHorizontal: true
+    });
+    return pose;
+  }).then(function(pose){
+    console.log("Posture");
+    console.log(pose);
+
+    postureValues = distancesFromPose(pose);
+    return postureValues;
+  });
+
 }
 
 
 const comparePics = (init, current) => {
-
-  // Checks whether current is bad posture relative to init
-    console.log("picture compared")
-
-  // returns true if good and false if bad
-  return true;
-}
-
+    console.log("Percent Differences");
+    return(hasGoodPosture(poseDifferences(init,current)));
+  }
 
 
 const triggerNotif = () => {

@@ -10,6 +10,7 @@
       "scripts": ["./js/background.js"],
       "persistent": false
     },
+    "options_page": "options.html",
     "browser_action": { // Browser actions will run on all web pages, page_actions are only under certain conditions
       "default_popup": "popup.html"
     },
