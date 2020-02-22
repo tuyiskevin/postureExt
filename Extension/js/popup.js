@@ -25,15 +25,19 @@ counter.style.color = "#72bcd4"
 counter.style.backgroundColor = "white"
 counter.style.border = "1px solid #72bcd4"
 counter.style.fontSize = "20px"
-counter.innerText = "Please sit with good posture for 10 seconds"
 
 
+
+// Clear saved data
+chrome.storage.sync.clear();
 
 const recordInitPosture = () => {
+
   // Intial point
   startBtn.style.display = "none";
   root.appendChild(counter)
   let count = 5
+  counter.innerText = `Please sit with good posture for ${count} seconds`
 
   let initialImage;
 
