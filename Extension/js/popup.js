@@ -60,6 +60,7 @@ const recordInitPosture = () => {
   // End Countdown
   const stopCountInt = () => {
     clearInterval(countInt);
+    console.log(initialImage)
     chrome.storage.sync.set({initialPic: initialImage}, () => {
       counter.innerText = "All Set! Sit Straight!"
     });
