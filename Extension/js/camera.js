@@ -1,7 +1,7 @@
-
+console.log("hit")
 
 const getPicture = () => {
-  let pictureData;
+  let pictureData = true;
 
   // Dont actually return the picture.
   // Just return the necesary Values
@@ -29,23 +29,25 @@ const triggerNotif = () => {
 
 
 
-const startRecording = () => {
-  // We have the inital picture saved in storage
-  initial = chrome.storage.sync.get(["initialPic"]);
-
+const startRecording = async () => {
+  // We have the initial picture saved in storage
+  let initial;
+  chrome.storage.sync.get(["initialPic"], (data0) => { // This entire function is a callback
+    initial = data0.initialPic
     // Counter
-    const count = 1;
+    let count = 1;
     // populated means we have taken at least 3 photos
     let populated = false;
-
     // Will record and check pictures every ten seconds
     const recorder = setInterval(() => {
       const thisPicture = getPicture();
       // posture is true if good
-      const posture = comparePics(inital, thisPicture);
+      const posture = comparePics(initial, thisPicture);
 
       // store the posture data for later use
-      chrome.storage.sync.set({`posture${count}`: posture}, () => {console.log(posture)});
+      const currKey = `posture${count}`;
+      console.log(currKey)
+      chrome.storage.sync.set({[currKey]: posture});
 
       // if three pics have been recorded, populate = true
       if (count == 0){
@@ -55,16 +57,33 @@ const startRecording = () => {
       // if three pics recorded
       if (populated){
         // get the last three postures
-        const a = chrome.storage.sync.get([`posture${count}`]);
-        const b = chrome.storage.sync.get([`posture${(count + 1)%3}`]);
-        const c = chrome.storage.sync.get([`posture${(count + 2)%3}`]);
-        // if all postures are bad
-        if (!(a || b || c)){
-          triggerNotif();
-        }
+        const keyA = `posture0`;
+        const keyB = `posture1`;
+        const keyC = `posture2`;
+        let a;
+        let b;
+        let c;
+        chrome.storage.sync.get(keyA, (data) => {
+          a = data[keyA]
+          chrome.storage.sync.get(keyB, (data2) => {
+            b = data2[keyB]
+            chrome.storage.sync.get(keyC, (data3) => {
+              c = data3[keyC]
+
+              console.log(a, b, c)
+              // if all postures are bad
+              if (!a && !b && !c){
+                triggerNotif();;
+              }
+
+              });
+            });
+          });
       }
       // Iterate infinitely through 1 => 2 => 0 => 1 => 2 => 0 ...
       count = (count + 1) % 3;
-    }, 10000)
-    
+    }, 2000)
+
+  }); // This is form the Assigning Initial
+
 }
