@@ -25,10 +25,10 @@ function hasGoodPosture(diff){
   }
 }
 
-function getPicture (elementId) {
+function getPicture (imageElement) {
   var flipHorizontal = false;
   var goodValues;
-  var posture = document.getElementById(elementId); // this line refers to how i get the image
+  var posture = imageElement; // this line refers to how i get the image
 
   posenet.load().then(function(net) {
     const pose = net.estimateSinglePose(posture, {
