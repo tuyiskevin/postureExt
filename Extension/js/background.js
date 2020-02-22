@@ -11,6 +11,7 @@ chrome.runtime.onInstalled.addListener(function() {
     //
     // });
 
-
+    import { test } from './poseNet.mjs';
+  	test();
 
   });
