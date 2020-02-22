@@ -15,51 +15,36 @@ function distancesFromPose(pose){
     leftRight: distance(pose.keypoints[5].position,pose.keypoints[6].position)};
 }
 
-function isSlouching(diff){
+function hasGoodPosture(diff){
 
   // if nose difference decreases by 10% or should distances increases by 10%
   if(diff.noseL > 1.10 || diff.noseR> 1.10 || diff.rL <0.9){
-    return true;
-  } else{
     return false;
+  } else{
+    return true;
   }
 }
 
-function calibrateGoodPosture (elementId) {
+function getPicture (elementId) {
   var flipHorizontal = false;
   var goodValues;
-  var goodPosture = document.getElementById(elementId); // this line refers to how i get the image
+  var posture = document.getElementById(elementId); // this line refers to how i get the image
 
   posenet.load().then(function(net) {
-    const poseG = net.estimateSinglePose(goodPosture, {
+    const pose = net.estimateSinglePose(posture, {
       flipHorizontal: true
     });
-    return poseG;
-  }).then(function(poseG){
-    console.log("GoodPosture");
-    console.log(poseG);
+    return pose;
+  }).then(function(pose){
+    console.log("Posture");
+    console.log(pose);
 
-    goodValues = distancesFromPose(poseG);
-    return goodValues;
+    postureValues = distancesFromPose(pose);
+    return postureValues;
   });
 }
 
-function testPosture (goodPostureValues, elementId){
-  var flipHorizontal = false;
-  var badValues;
-  var currentPosture = document.getElementById(elementId);
-  posenet.load().then(function(net) {
-    const poseB = net.estimateSinglePose(currentPosture, {
-      flipHorizontal: true
-    });
-    return poseB;
-  }).then(function(poseB){
-    console.log("currentPosture");
-    console.log(poseB);
-
-    currentValues= distancesFromPose(poseB)
-    console.log(currentValues);
-
+function comparePostures (initialPostureValues, currentPostureValues){
     console.log("Percent Differences");
     console.log(poseDifferences(goodValues,currentValues));
 
@@ -67,6 +52,8 @@ function testPosture (goodPostureValues, elementId){
   })
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// used for testing and setup purposes. Now all the relavent code is in function
     console.log("Hello");
     var flipHorizontal = false;
     var goodValues;
@@ -104,5 +91,5 @@ function testPosture (goodPostureValues, elementId){
       console.log("Percent Differences");
       console.log(poseDifferences(goodValues,badValues));
 
-      console.log(isSlouching(poseDifferences(goodValues,badValues)))
+      console.log(hasGoodPosture(poseDifferences(goodValues,badValues)))
     })
