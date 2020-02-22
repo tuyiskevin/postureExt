@@ -14,7 +14,7 @@ startBtn.style.fontSize = "40px"
 
 
 
-startBtn.
+// startBtn.
 
 // Use built in funtions like this
   // chrome.storage.sync.get('data', function(data) {
