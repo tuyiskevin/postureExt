@@ -2,8 +2,8 @@ console.log("hit")
 
 
 
-const videoWidth = 1280;
-const videoHeight = 720;
+const videoWidth = 600;
+const videoHeight = 500;
 const video = document.getElementById('video'),
       canvas = document.getElementById('canvas'),
       output = document.getElementById('output'),
@@ -12,6 +12,8 @@ const video = document.getElementById('video'),
 async function getVideo() {
   video.width = videoWidth;
   video.height = videoHeight;
+  output.width = videoWidth;
+  output.height = videoHeight;
     const stream = await navigator.mediaDevices.getUserMedia({
         'video' : {
         facingMode: 'user',
@@ -21,11 +23,10 @@ async function getVideo() {
         'audio': false
         });
         video.srcObject = stream;
-    trigger.click = function() {
         canvas.getContext("2d")
-        canvas.width = video.width;
-        canvas.height = video.height;
-        output.src = canvas.toDataURL("image/png")};
+        canvas.width = videoWidth;
+        canvas.height = videoHeight;
+        output.src = canvas.toDataURL("image/png")
     return new Promise((resolve) => {
         video.onloadedmetadata = () => {
         resolve(video);
