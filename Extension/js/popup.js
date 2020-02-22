@@ -1,4 +1,7 @@
 
+
+
+
 const root = document.getElementById("root");
 const startBtn = document.getElementById("startBtn");
 const counter = document.createElement("div")
