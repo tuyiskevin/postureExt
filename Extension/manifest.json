@@ -2,7 +2,10 @@
     "name": "PostureJS",
     "version": "1.0",
     "description": "Correct Your Posture!",
-    "permissions": ["storage"], // These are all the methods that chrome object. If you use a new one, you have to put it in this permissions array
+    "permissions": ["storage", "tabs"], // These are all the methods that chrome object. If you use a new one, you have to put it in this permissions array
+    "icons": {
+      "64": "img/postureExt-icon.png"
+    },
     "background": {
       "scripts": ["./js/background.js"],
       "persistent": false
