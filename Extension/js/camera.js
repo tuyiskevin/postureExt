@@ -52,9 +52,6 @@ function distance(p1, p2) {
 
 function poseDifferences(good, bad) {
 
-  console.log("GOOGOGGOGd")
-  console.log(good);
-
   differences = {noseL: good.noseLeft/bad.noseLeft, noseR: good.noseRight/bad.noseRight,
   rL: good.leftRight/bad.leftRight};
 
