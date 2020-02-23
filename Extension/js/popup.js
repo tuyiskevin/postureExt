@@ -31,7 +31,7 @@ counter.style.fontSize = "20px"
 // Clear saved data
 chrome.storage.sync.clear();
 
-const recordInitPosture = () => {
+const recordInitPosture = async () => {
 
   // Intial point
   startBtn.style.display = "none";
@@ -42,7 +42,7 @@ const recordInitPosture = () => {
   let initialImage;
 
   // Countdown
-  const countInt = setInterval(() => {
+  const countInt = setInterval(async () => {
 
       if(count == 0){
         stopCountInt();
@@ -51,7 +51,7 @@ const recordInitPosture = () => {
         counter.innerText = `Please sit with good posture for ${count} seconds`
       }
       if(count == 2){
-        initialImage = getPicture();
+        initialImage = await getPicture();
       }
     }, 1000);
 

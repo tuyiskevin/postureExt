@@ -122,8 +122,10 @@ const comparePics = (init, current) => {
 
 
 const triggerNotif = () => {
-  // Notify user of their shitty posture
-  console.log("notif triggered")
+
+  alert("CORRECT YOUR POSTURE!!!")
+
+
 }
 
 
@@ -142,7 +144,6 @@ const startRecording = () => {
 
       const thisPicture = await getPicture();
 
-      console.log(thisPicture)
 
       // posture is true if good
       const posture = await comparePics(initial, thisPicture);
