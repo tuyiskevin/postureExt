@@ -51,6 +51,10 @@ function distance(p1, p2) {
 }
 
 function poseDifferences(good, bad) {
+
+  console.log("GOOGOGGOGd")
+  console.log(good);
+
   differences = {noseL: good.noseLeft/bad.noseLeft, noseR: good.noseRight/bad.noseRight,
   rL: good.leftRight/bad.leftRight};
 
@@ -76,6 +80,8 @@ function hasGoodPosture(diff){
 
 const getPicture = async () => {
 
+  let finalPostureValues;
+
   const video = document.getElementById('video'),
         canvas = document.getElementById('canvas'),
         output = document.getElementById('output')
@@ -97,25 +103,23 @@ const getPicture = async () => {
   let posture = document.getElementById("output"); // this line refers to how i get the image
 
 
-  posenet.load().then(function(net) {
-    const pose = net.estimateSinglePose(posture, {
+  const net = await posenet.load()
+
+  const pose = await net.estimateSinglePose(posture, {
       flipHorizontal: true
     });
-    return pose;
-  }).then(function(pose){
-    console.log("Posture");
-    console.log(pose);
 
-    postureValues = distancesFromPose(pose);
-    return postureValues;
-  });
+  const postureValues = await distancesFromPose(pose);
+
+
+  return postureValues;
 
 }
 
 
 const comparePics = (init, current) => {
+
     console.log("Percent Differences");
-    console.log(poseDifferences(init,current));
     return(hasGoodPosture(poseDifferences(init,current)));
   }
 
@@ -127,7 +131,7 @@ const triggerNotif = () => {
 
 
 
-const startRecording = async () => {
+const startRecording = () => {
   // We have the initial picture saved in storage
   let initial;
   chrome.storage.sync.get(["initialPic"], (data0) => { // This entire function is a callback
@@ -137,10 +141,14 @@ const startRecording = async () => {
     // populated means we have taken at least 3 photos
     let populated = false;
     // Will record and check pictures every ten seconds
-    const recorder = setInterval(() => {
-      const thisPicture = getPicture();
+    const recorder = setInterval( async () => {
+
+      const thisPicture = await getPicture();
+
+      console.log(thisPicture)
+
       // posture is true if good
-      const posture = comparePics(initial, thisPicture);
+      const posture = await comparePics(initial, thisPicture);
 
       // store the posture data for later use
       const currKey = `posture${count}`;
