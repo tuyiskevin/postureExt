@@ -14,6 +14,7 @@ async function getVideo() {
   video.height = videoHeight;
   output.width = videoWidth;
   output.height = videoHeight;
+  output.style.display = "none";
     const stream = await navigator.mediaDevices.getUserMedia({
         'video' : {
         facingMode: 'user',
@@ -23,10 +24,6 @@ async function getVideo() {
         'audio': false
         });
         video.srcObject = stream;
-        canvas.getContext("2d")
-        canvas.width = videoWidth;
-        canvas.height = videoHeight;
-        output.src = canvas.toDataURL("image/png")
     return new Promise((resolve) => {
         video.onloadedmetadata = () => {
         resolve(video);
@@ -35,9 +32,11 @@ async function getVideo() {
 }
 
 const loadVideo = async () => {
+
   const video = await getVideo();
   video.play();
-  return video;
+
+  return video
 }
 loadVideo();
 
@@ -77,7 +76,21 @@ function hasGoodPosture(diff){
 
 const getPicture = async () => {
 
-  await loadVideo();
+  const video = document.getElementById('video'),
+        canvas = document.getElementById('canvas'),
+        output = document.getElementById('output')
+
+        const ratio = video.videoWidth / video.videoHeight;
+        const w = video.videoWidth - 100;
+        const h = parseInt(w / ratio, 10);
+        canvas.width = w;
+        canvas.height = h;
+
+  context = canvas.getContext("2d");
+  context.fillRect(0, 0, w, h);
+  context.drawImage(video, 0, 0, w, h);
+
+  output.src = canvas.toDataURL("image/png")
 
   let flipHorizontal = false;
   let goodValues;
@@ -102,6 +115,7 @@ const getPicture = async () => {
 
 const comparePics = (init, current) => {
     console.log("Percent Differences");
+    console.log(poseDifferences(init,current));
     return(hasGoodPosture(poseDifferences(init,current)));
   }
 
