@@ -1,4 +1,3 @@
-console.log("hit")
 
 
 
@@ -116,7 +115,6 @@ const getPicture = async () => {
 
 const comparePics = (init, current) => {
 
-    console.log("Percent Differences");
     return(hasGoodPosture(poseDifferences(init,current)));
   }
 
@@ -150,7 +148,7 @@ const startRecording = () => {
 
       // store the posture data for later use
       const currKey = `posture${count}`;
-      console.log(currKey)
+
       chrome.storage.sync.set({[currKey]: posture});
 
       // if three pics have been recorded, populate = true
@@ -186,7 +184,7 @@ const startRecording = () => {
       }
       // Iterate infinitely through 1 => 2 => 0 => 1 => 2 => 0 ...
       count = (count + 1) % 3;
-    }, 2000)
+    }, 5000)
 
   }); // This is form the Assigning Initial
 
