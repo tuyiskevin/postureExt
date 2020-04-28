@@ -17,5 +17,4 @@ git clone https://github.com/tuyiskevin/postureExt.git
 4. click on the extention icon and begin session
 
 ## Credits
-posture was developed by [Abedi1](https://github.com/abedi1),[Kcode](https://github.com/tuyiskevin),[willyd332](https://github.com/willyd332), [tulio]()
-
+&copy; postureExt was developed by [Abedi1](https://github.com/abedi1),[Kcode](https://github.com/tuyiskevin),[willyd332](https://github.com/willyd332), [tulio]()
